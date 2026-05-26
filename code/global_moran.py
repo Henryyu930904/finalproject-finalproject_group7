@@ -7,7 +7,7 @@ clustering tendency of YouBike shortages across the city. It reuses the
 row-normalized k-NN(k=6) weight matrix from the local LISA implementation.
 
 Usage:
-    python eda_global_moran.py --static data/youbike_station.csv --snapshot data/latest.csv
+    python -m m2.eda_global_moran --static data/youbike_station.csv --snapshot data/latest.csv
 """
 
 import argparse
@@ -18,12 +18,17 @@ from esda.moran import Moran
 # Import the internal function from the team's existing module 
 # to ensure the W matrix logic matches the online inference exactly.
 try:
-    from lisa import _build_knn_w
+    # Primary attempt: running from the project root
+    from m2.lisa import _build_knn_w
 except ImportError:
-    raise ImportError(
-        "Module 'lisa' not found. Please ensure this script is run in the "
-        "same directory as lisa.py, or add the directory to your PYTHONPATH."
-    )
+    try:
+        # Fallback: running directly inside the m2/ directory
+        from lisa import _build_knn_w
+    except ImportError:
+        raise ImportError(
+            "Module 'lisa' not found. Please ensure this script is run in the "
+            "correct directory, or add the project root to your PYTHONPATH."
+        )
 
 def compute_global_moran(
     snapshot_df: pd.DataFrame, 
