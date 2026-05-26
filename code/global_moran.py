@@ -121,7 +121,7 @@ def _main():
         )
         
         print("\n" + "="*50)
-        print("🌍 Global Spatial Autocorrelation (Moran's I) Results")
+        print("Global Spatial Autocorrelation (Moran's I) Results")
         print("="*50)
         print(f"Observed Moran's I : {results['Morans_I']}")
         print(f"Expected I         : {results['Expected_I']}")
